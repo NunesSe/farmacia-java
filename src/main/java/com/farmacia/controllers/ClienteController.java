@@ -1,19 +1,17 @@
 package com.farmacia.controllers;
 
-import com.farmacia.Main;
-import com.farmacia.daos.ClienteDao;
-import com.farmacia.exceptions.ClienteNaoEncontradoException;
-import com.farmacia.models.Cliente;
-import com.farmacia.views.ClienteView;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.farmacia.Main;
+import com.farmacia.daos.ClienteDao;
+import com.farmacia.models.Cliente;
+import com.farmacia.views.ClienteView;
 
 
 

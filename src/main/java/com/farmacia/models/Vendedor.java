@@ -26,22 +26,7 @@ public class Vendedor extends Pessoa implements Formatacao<Vendedor> {
     @Override
     public String dadosFormatados() {
         try {
-            String nome = this.getNome() != null ? this.getNome() : "";
-            String cpf = this.getCpf() != null ? this.getCpf() : "";
-
-            // Validação do salário
-            double salario = 0.0;
-            if (this.getSalario() != null) {
-                salario = this.getSalario();
-                if (salario < 0) {
-                    throw new IllegalArgumentException("Salário não pode ser negativo");
-                }
-            }
-
-            return this.getId() + ";" + nome + ";" + cpf + ";" + salario;
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return "Erro: " + e.getMessage();
+            return this.getId() + ";" + this.getNome() + ";" + this.getCpf() + ";" + this.getSalario();
         } catch (Exception e) {
             e.printStackTrace();
             return "Erro ao formatar os dados";

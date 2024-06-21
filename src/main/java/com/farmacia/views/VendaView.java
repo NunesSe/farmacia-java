@@ -5,15 +5,15 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
-import com.farmacia.Main;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.farmacia.controllers.ClienteController;
 import com.farmacia.controllers.MedicamentoController;
 import com.farmacia.controllers.VendaController;
-import com.farmacia.controllers.ClienteController;
 import com.farmacia.controllers.VendedorController;
 import com.farmacia.models.Medicamento;
 import com.farmacia.models.Venda;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class VendaView {
 
@@ -168,7 +168,7 @@ public class VendaView {
 
         for (Venda venda : vendas) {
             System.out.println("===============================");
-            System.out.println("Id: " + venda.getId());
+            System.out.println("Venda Id: " + venda.getId());
             System.out.println("Cliente: " + ClienteController.buscarClientePorUuid(venda.getClienteId()).getNome());
             System.out.println("Vendedor: " + VendedorController.buscarVendedorPorUuid(venda.getVendedorId()).getNome());
             System.out.println("Preço Final: " + venda.getPrecoFinal());

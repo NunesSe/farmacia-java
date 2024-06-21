@@ -1,14 +1,14 @@
 package com.farmacia.views;
 
-import com.farmacia.Main;
-import com.farmacia.controllers.VendedorController;
-import com.farmacia.models.Vendedor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.farmacia.controllers.VendedorController;
+import com.farmacia.models.Vendedor;
 
 public class VendedorView {
     private static final Logger logger = LogManager.getLogger(VendedorView.class);
@@ -77,6 +77,12 @@ public class VendedorView {
         try {
             System.out.println("Digite o nome");
             var nome = scan.nextLine();
+
+            if (!nome.matches("[a-zA-Z\\s]+")) {
+                System.out.println("Nome deve conter apenas letras e espaços");
+                logger.warn("Nome invalido inserido em VendedorView.");
+                return;
+            }
             if (nome.isEmpty()) {
                 System.out.println("Nome inválido.");
                 logger.warn("Nome inválido inserido no cadastro de vendedor.");
@@ -85,9 +91,16 @@ public class VendedorView {
 
             System.out.println("Digite o CPF");
             var cpf = scan.nextLine();
-            if (cpf.length() != 11) {
-                System.out.println("CPF inválido.");
-                logger.warn("CPF inválido inserido no cadastro de vendedor.");
+
+            if (!cpf.matches("\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}")) {
+                System.out.println("CPF deve estar no formato 999.999.999-99");
+                logger.warn("CPF invalido em ClienteView");
+                return;
+            }
+
+            if (VendedorController.vendedorJaExiste(cpf) == true) {
+                System.out.println("Vendedor com esse CPF já cadastrado!");
+                logger.warn("Vendedor com CPF duplicado recusado em VendedorView!");
                 return;
             }
 
@@ -126,6 +139,12 @@ public class VendedorView {
 
             System.out.println("Digite o novo nome");
             var nome = scan.nextLine();
+
+            if (!nome.matches("[a-zA-Z\\s]+")) {
+                System.out.println("Nome deve conter apenas letras e espaços");
+                logger.warn("Nome invalido inserido em VendedorView.");
+                return;
+            }
             if (nome.isEmpty()) {
                 System.out.println("Nome inválido.");
                 logger.warn("Nome inválido inserido na atualização de vendedor.");
@@ -134,9 +153,16 @@ public class VendedorView {
 
             System.out.println("Digite o novo CPF");
             var cpf = scan.nextLine();
-            if (cpf.length() != 11) {
-                System.out.println("CPF inválido.");
-                logger.warn("CPF inválido inserido na atualização de vendedor.");
+
+            if (!cpf.matches("\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}")) {
+                System.out.println("CPF deve estar no formato 999.999.999-99");
+                logger.warn("CPF invalido em ClienteView");
+                return;
+            }
+
+            if (VendedorController.vendedorJaExiste(cpf) == true) {
+                System.out.println("Vendedor com esse CPF já cadastrado!");
+                logger.warn("Vendedor com CPF duplicado recusado em VendedorView!");
                 return;
             }
 

@@ -1,13 +1,10 @@
 package com.farmacia.controllers;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import com.farmacia.daos.VendedorDao;
-import com.farmacia.exceptions.VendedorNaoEncontradoException;
 import com.farmacia.models.Vendedor;
 import com.farmacia.views.VendedorView;
 
@@ -48,5 +45,17 @@ public class VendedorController {
 
         return vendedor;
 
+    }
+
+    public static boolean vendedorJaExiste(String CPF){
+        List<Vendedor> vendedores = vendedorDao.listar(VENDEDOR_FILE_NAME);
+        if (vendedores.size() == 0) {
+            return false;
+        }
+        var verificar = vendedores.stream().filter(c -> c.equals(CPF)).findFirst().orElse(null);
+        if (verificar != null) {
+            return true;
+        }
+        return false;
     }
 }

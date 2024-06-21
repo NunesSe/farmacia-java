@@ -66,6 +66,12 @@ public class ClienteView {
     private static void cadastrar(Scanner scan) {
         System.out.println("Digite o nome");
         var nome = scan.nextLine();
+
+        if (!nome.matches("[a-zA-Z\\s]+")) {
+            System.out.println("Nome deve conter apenas letras e espaços");
+            logger.warn("Nome invalido inserido em ClienteView.");
+            return;
+        }
         
         if(nome.length() == 0) {
             System.out.println("Digite um nome válido!");
@@ -73,11 +79,11 @@ public class ClienteView {
             return;
         }
 
-        System.out.println("Digite o CPF (Somente números)");
+        System.out.println("Digite o CPF");
         var cpf = scan.nextLine();
 
-        if (cpf.length() != 11) {
-            System.out.println("CPF invalido.");
+        if (!cpf.matches("\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}")) {
+            System.out.println("CPF deve estar no formato 999.999.999-99");
             logger.warn("CPF invalido em ClienteView");
             return;
         }
@@ -104,7 +110,7 @@ public class ClienteView {
 
     private static void alterar(Scanner scan) {
         try {
-            ClienteController.listar(); 
+            ClienteController.listar();
             System.out.println("Digite o ID do cliente a ser alterado");
 
             var id = UUID.fromString(scan.nextLine());
@@ -119,16 +125,22 @@ public class ClienteView {
 
             if(nome.length() == 0) {
                 System.out.println("Digite um nome válido!");
-                logger.warn("Nome invalido inserido em clienteView.");
+                logger.warn("Nome invalido inserido em ClienteView.");
                 return;
             }
 
             System.out.println("Digite o novo CPF");
             var cpf = scan.nextLine();
 
-            if (cpf.length() != 11) {
-                System.out.println("CPF invalido.");
+            if (!cpf.matches("\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}")) {
+                System.out.println("CPF deve estar no formato 999.999.999-99");
                 logger.warn("CPF invalido em ClienteView");
+                return;
+            }
+
+            if(ClienteController.clienteJaExiste(cpf) == true) {
+                System.out.println("Cliente com esse CPF já cadastrado!");
+                logger.warn("Cliente com CPF duplicado recusado em ClienteView!");
                 return;
             }
 

@@ -1,14 +1,14 @@
 package com.farmacia.views;
 
-import com.farmacia.Main;
-import com.farmacia.controllers.MedicamentoController;
-import com.farmacia.models.Medicamento;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.farmacia.controllers.MedicamentoController;
+import com.farmacia.models.Medicamento;
 
 public class MedicamentoView {
     private static final Logger logger = LogManager.getLogger(MedicamentoView.class);
@@ -77,6 +77,12 @@ public class MedicamentoView {
         try {
             System.out.println("Digite o nome do medicamento");
             var nome = scan.nextLine();
+
+            if (!nome.matches("[a-zA-Z\\s]+")) {
+                System.out.println("Nome deve conter apenas letras e espaços");
+                logger.warn("Nome invalido inserido em MedicamentoView.");
+                return;
+            }
             if (nome.isEmpty()) {
                 System.out.println("Nome inválido.");
                 logger.warn("Nome inválido inserido no cadastro de medicamento.");
@@ -127,6 +133,12 @@ public class MedicamentoView {
 
             System.out.println("Digite o novo nome do medicamento");
             var nome = scan.nextLine();
+
+            if (!nome.matches("[a-zA-Z\\s]+")) {
+                System.out.println("Nome deve conter apenas letras e espaços");
+                logger.warn("Nome invalido inserido em MedicamentoView.");
+                return;
+            }
             if (nome.isEmpty()) {
                 System.out.println("Nome inválido.");
                 logger.warn("Nome inválido inserido no cadastro de medicamento.");
@@ -194,11 +206,12 @@ public class MedicamentoView {
         }
 
         for (Medicamento medicamento : medicamentos) {
+            System.out.println("===============================");
             System.out.println("Id: " + medicamento.getId());
             System.out.println("Nome: " + medicamento.getNome());
             System.out.println("Preço: " + medicamento.getPreco());
             System.out.println("Função: " + medicamento.getFuncao());
-            System.out.println("------------------------");
+            System.out.println("===============================");
         }
     }
 }
