@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public class MedicamentoController {
     private static final MedicamentoDao medicamentoDao = new MedicamentoDao();
-    private static final File MEDICAMENTO_FILE_NAME = new File("farmacia/src/main/resources/arquivos/medicamentos.txt");
+    private static final File MEDICAMENTO_FILE_NAME = new File("src\\main\\resources\\arquivos\\medicamentos.txt");
 
     public static void cadastrar(Medicamento medicamento) {
         try {

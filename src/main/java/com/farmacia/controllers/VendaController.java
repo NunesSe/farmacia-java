@@ -13,7 +13,7 @@ import com.farmacia.views.VendaView;
 
 public class VendaController {
     private static final VendaDao vendaDao = new VendaDao();
-    private static final File VENDA_FILE_NAME = new File("farmacia/src/main/resources/arquivos/vendas.txt");
+    private static final File VENDA_FILE_NAME = new File("src\\main\\resources\\arquivos\\vendas.txt");
 
     public static void cadastrar(Venda venda) {
         try {

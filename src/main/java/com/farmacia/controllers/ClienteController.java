@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class ClienteController {
     private static final ClienteDao clienteDao = new ClienteDao();
-    private static final File CLIENTE_FILE_NAME = new File("farmacia/src/main/resources/arquivos/clientes.txt");
+    private static final File CLIENTE_FILE_NAME = new File("src\\main\\resources\\arquivos\\clientes.txt");
 
     public static void cadastrar(Cliente cliente) {
         try {

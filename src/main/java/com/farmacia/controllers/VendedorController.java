@@ -13,7 +13,7 @@ import com.farmacia.views.VendedorView;
 
 public class VendedorController {
     private static final VendedorDao vendedorDao = new VendedorDao();
-    private static final File VENDEDOR_FILE_NAME = new File("C:\\Users\\ivisf\\Desktop\\farmacia-java\\src\\main\\resources\\arquivos\\vendedores.txt");
+    private static final File VENDEDOR_FILE_NAME = new File("src\\main\\resources\\arquivos\\vendedores.txt");
 
     public static void cadastrar(Vendedor vendedor) {
         try {
