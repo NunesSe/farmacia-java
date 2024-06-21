@@ -1,21 +1,14 @@
 package com.farmacia;
 
-import com.farmacia.controllers.VendaController;
-import com.farmacia.daos.VendaDao;
+import java.io.IOException;
+import java.util.Scanner;
+
 import com.farmacia.exceptions.ClienteNaoEncontradoException;
 import com.farmacia.exceptions.VendedorNaoEncontradoException;
-import com.farmacia.models.Medicamento;
-import com.farmacia.models.Venda;
 import com.farmacia.views.ClienteView;
 import com.farmacia.views.MedicamentoView;
 import com.farmacia.views.VendaView;
 import com.farmacia.views.VendedorView;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.UUID;
 
 public class Main {
     public static void main(String[] args) throws IOException {

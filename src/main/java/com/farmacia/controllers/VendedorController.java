@@ -1,23 +1,24 @@
 package com.farmacia.controllers;
 
-import com.farmacia.daos.VendedorDao;
-import com.farmacia.exceptions.VendedorNaoEncontradoException;
-import com.farmacia.models.Vendedor;
-import com.farmacia.views.VendedorView;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.farmacia.daos.VendedorDao;
+import com.farmacia.exceptions.VendedorNaoEncontradoException;
+import com.farmacia.models.Vendedor;
+import com.farmacia.views.VendedorView;
+
 public class VendedorController {
     private static final VendedorDao vendedorDao = new VendedorDao();
-    private static final File VENDEDOR_FILE_NAME = new File("farmacia\\src\\main\\resources\\arquivos\\vendedores.txt");
+    private static final File VENDEDOR_FILE_NAME = new File("C:\\Users\\ivisf\\Desktop\\farmacia-java\\src\\main\\resources\\arquivos\\vendedores.txt");
 
     public static void cadastrar(Vendedor vendedor) {
         try {
             vendedorDao.escrever(VENDEDOR_FILE_NAME, vendedor.dadosFormatados(), true);
+            System.out.println("Vendedor cadastrado com sucesso!");
         } catch (IOException e) {
             System.out.println("Erro ao cadastrar vendedor: " + e.getMessage());
             e.printStackTrace();
