@@ -81,7 +81,7 @@ public class MedicamentoDao extends Escrever implements DaoInterface<Medicamento
     }
 
     @Override
-    public List<Medicamento> listar(File file) throws IOException {
+    public List<Medicamento> listar(File file) {
         List<Medicamento> medicamentos = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {

@@ -15,13 +15,10 @@ public class MedicamentoController {
     private static final File MEDICAMENTO_FILE_NAME = new File("src\\main\\resources\\arquivos\\medicamentos.txt");
 
     public static void cadastrar(Medicamento medicamento) {
-        try {
+     
             medicamentoDao.escrever(MEDICAMENTO_FILE_NAME, medicamento.dadosFormatados(), true);
             System.out.println("Medicamento cadastrado com sucesso!");
-        } catch (IOException e) {
-            System.out.println("Erro ao cadastrar medicamento: " + e.getMessage());
-            e.printStackTrace();
-        }
+        
     }
 
     public static void atualizar(Medicamento medicamento) {
@@ -45,25 +42,20 @@ public class MedicamentoController {
     }
 
     public static void listar() {
-        try {
+   
             MedicamentoView.listar(medicamentoDao.listar(MEDICAMENTO_FILE_NAME));
-        } catch (IOException e) {
-            System.out.println("Erro ao listar medicamentos: " + e.getMessage());
-            e.printStackTrace();
-        }
+        
     }
 
-    public static Medicamento buscarMedicamentoPorUuid(UUID uuid) throws MedicamentoNaoEncontradoException, IOException {
+    public static Medicamento buscarMedicamentoPorUuid(UUID uuid)  {
         var listaMedicamento = medicamentoDao.listar(MEDICAMENTO_FILE_NAME);
 
-        Optional<Medicamento> medicamento = listaMedicamento.stream()
-                                                            .filter(m -> m.getId().equals(uuid))
-                                                            .findFirst();
+        Medicamento medicamento = listaMedicamento.stream()
+                                                    .filter(m -> m.getId().equals(uuid))
+                                                    .findFirst().orElse(null);
 
-        if(medicamento.isEmpty()) {
-            throw new MedicamentoNaoEncontradoException("Não encontrado o medicamento de UUID: " + uuid);
-        }
+        
 
-        return medicamento.get();
+        return medicamento;
     }
 }

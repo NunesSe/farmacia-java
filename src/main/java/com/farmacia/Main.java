@@ -3,6 +3,9 @@ package com.farmacia;
 import java.io.IOException;
 import java.util.Scanner;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.farmacia.exceptions.ClienteNaoEncontradoException;
 import com.farmacia.exceptions.VendedorNaoEncontradoException;
 import com.farmacia.views.ClienteView;
@@ -11,16 +14,25 @@ import com.farmacia.views.VendaView;
 import com.farmacia.views.VendedorView;
 
 public class Main {
+    private static final Logger logger = LogManager.getLogger(Main.class);
     public static void main(String[] args) throws IOException {
-        int escolha;
-        Scanner scan = new Scanner(System.in);
-        do {
-            mostrarMenu();
-            escolha = Integer.parseInt(scan.nextLine());
-            tratarEscolha(escolha, scan);
-        } while (escolha != 0);
+        iniciar();
+    }
 
-        scan.close(); // Fechar o scanner ao finalizar o programa
+    public static void iniciar() {
+        try {
+            int escolha;
+            Scanner scan = new Scanner(System.in);
+            do {
+                mostrarMenu();
+                escolha = Integer.parseInt(scan.nextLine());
+                tratarEscolha(escolha, scan);
+            } while (escolha != 0);
+        } catch (NumberFormatException e) {
+            System.out.println("Digite um número valido!");
+            logger.warn("Entrada invalido (inteiro esperado)");
+            iniciar();
+        } 
     }
 
     public static void mostrarMenu() {
@@ -32,9 +44,10 @@ public class Main {
         System.out.println("2 - Vendedor");
         System.out.println("3 - Medicamento");
         System.out.println("4 - Venda");
+        System.out.println("Digite o número que deseja: ");
     }
 
-    public static void tratarEscolha(int escolha, Scanner scan) throws IOException {
+    public static void tratarEscolha(int escolha, Scanner scan){
         switch (escolha) {
             case 0:
                 System.out.println("Encerrando!");
@@ -49,12 +62,7 @@ public class Main {
                 MedicamentoView.iniciar(scan);
                 break;
             case 4:
-                try {
-                    VendaView.iniciar(scan);
-                } catch (IOException | ClienteNaoEncontradoException | VendedorNaoEncontradoException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                VendaView.iniciar(scan);
                 break;
             default:
                 System.out.println("Opção inválida!");

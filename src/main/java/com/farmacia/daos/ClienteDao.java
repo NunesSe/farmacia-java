@@ -22,10 +22,8 @@ public class ClienteDao extends Escrever implements DaoInterface<Cliente> {
     }
 
     @Override
-    public void atualizar(Cliente clienteAtualizado, File file) throws IOException, ClienteNaoEncontradoException {
-        if (!existeCliente(clienteAtualizado.getId(), file)) {
-            throw new ClienteNaoEncontradoException("Cliente não encontrado para atualização.");
-        }
+    public void atualizar(Cliente clienteAtualizado, File file) throws IOException {
+        
 
         List<Cliente> clientes = new ArrayList<>();
 
@@ -49,14 +47,12 @@ public class ClienteDao extends Escrever implements DaoInterface<Cliente> {
     }
 
     @Override
-    public void deletar(UUID id, File file) throws IOException, ClienteNaoEncontradoException {
-        if (!existeCliente(id, file)) {
-            throw new ClienteNaoEncontradoException("Cliente não encontrado para exclusão.");
-        }
+    public void deletar(UUID id, File file) {
+       
 
-        List<Cliente> clientes = new ArrayList<>();
-
+        
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            List<Cliente> clientes = new ArrayList<>();
             String linha;
             while ((linha = br.readLine()) != null) {
                 Cliente cliente = parse(linha);
@@ -64,40 +60,38 @@ public class ClienteDao extends Escrever implements DaoInterface<Cliente> {
                     clientes.add(cliente);
                 }
             }
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file, false));
+                   for (Cliente cliente : clientes) {
+                       bw.write(cliente.dadosFormatados());
+                       bw.newLine();
+                   }
+            bw.close();
+            System.out.println("Cliente deletado com sucesso!");
+
+        } catch (IOException e) {
+            System.out.println("Erro ao deletar clientes");
         }
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, false))) {
-            for (Cliente cliente : clientes) {
-                bw.write(cliente.dadosFormatados());
-                bw.newLine();
-            }
-        }
+        
     }
 
     @Override
-    public List<Cliente> listar(File file) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        String linha;
-        List<Cliente> clientes = new ArrayList<>();
-        while ((linha = reader.readLine()) != null) {
-            Cliente cliente = parse(linha);
-            clientes.add(cliente);
+    public List<Cliente> listar(File file)  {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String linha;
+            List<Cliente> clientes = new ArrayList<>();
+            while ((linha = reader.readLine()) != null) {
+                Cliente cliente = parse(linha);
+                clientes.add(cliente);
+            }
+            return clientes;
+        } catch (IOException e) {
+            System.out.println("Erro ao listar em ClienteDao");
+            return null;
         }
         
-        return clientes;
     }
 
-    private boolean existeCliente(UUID id, File file) throws IOException {
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String linha;
-            while ((linha = br.readLine()) != null) {
-                Cliente cliente = parse(linha);
-                if (cliente.getId().equals(id)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 
 }

@@ -1,6 +1,5 @@
 package com.farmacia.daos;
 
-import com.farmacia.exceptions.VendedorNaoEncontradoException;
 import com.farmacia.models.Vendedor;
 
 import java.io.*;
@@ -22,10 +21,7 @@ public class VendedorDao extends Escrever implements DaoInterface<Vendedor> {
     }
 
     @Override
-    public void atualizar(Vendedor vendedorAtualizado, File file) throws IOException, VendedorNaoEncontradoException {
-        if (!existeVendedor(vendedorAtualizado.getId(), file)) {
-            throw new VendedorNaoEncontradoException("Vendedor não encontrado para atualização.");
-        }
+    public void atualizar(Vendedor vendedorAtualizado, File file) {
 
         List<Vendedor> vendedores = new ArrayList<>();
 
@@ -38,22 +34,20 @@ public class VendedorDao extends Escrever implements DaoInterface<Vendedor> {
                 }
                 vendedores.add(vendedor);
             }
-        }
-
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, false))) {
-            for (Vendedor vendedor : vendedores) {
-                bw.write(vendedor.dadosFormatados());
-                bw.newLine();
-            }
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file, false));
+                for (Vendedor vendedor : vendedores) {
+                    bw.write(vendedor.dadosFormatados());
+                    bw.newLine();
+                }
+        } 
+        catch(IOException e) {
+            System.out.println("Erro");
         }
     }
 
     @Override
-    public void deletar(UUID id, File file) throws IOException, VendedorNaoEncontradoException {
-        if (!existeVendedor(id, file)) {
-            throw new VendedorNaoEncontradoException("Vendedor não encontrado para exclusão.");
-        }
-
+    public void deletar(UUID id, File file) {
+      
         List<Vendedor> vendedores = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -64,18 +58,20 @@ public class VendedorDao extends Escrever implements DaoInterface<Vendedor> {
                     vendedores.add(vendedor);
                 }
             }
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file, false));
+                for (Vendedor vendedor : vendedores) {
+                    bw.write(vendedor.dadosFormatados());
+                    bw.newLine();
+                }
+        } catch(IOException e) {
+            
         }
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, false))) {
-            for (Vendedor vendedor : vendedores) {
-                bw.write(vendedor.dadosFormatados());
-                bw.newLine();
-            }
-        }
+        
     }
 
     @Override
-    public List<Vendedor> listar(File file) throws IOException {
+    public List<Vendedor> listar(File file) {
 
         List<Vendedor> vendedores = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -84,6 +80,8 @@ public class VendedorDao extends Escrever implements DaoInterface<Vendedor> {
                 Vendedor vendedor = parse(linha);
                 vendedores.add(vendedor);
             }
+        } catch (IOException e) {
+            System.out.println("Erro");
         }
         return vendedores;
     }

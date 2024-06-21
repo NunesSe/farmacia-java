@@ -67,7 +67,7 @@ public class VendaDao extends Escrever {
         }
     }
 
-    public List<Venda> listar(File file) throws IOException {
+    public List<Venda> listar(File file){
         BufferedReader reader = null;
         List<Venda> vendas = new ArrayList<>();
 
@@ -78,10 +78,9 @@ public class VendaDao extends Escrever {
                 Venda venda = parse(linha);
                 vendas.add(venda);
             }
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
+            reader.close();
+        } catch(IOException e) {
+            System.out.println("Erro");
         }
         return vendas;
     }
